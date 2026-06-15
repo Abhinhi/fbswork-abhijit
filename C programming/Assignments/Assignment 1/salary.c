@@ -1,17 +1,20 @@
-#include<stdio.h>
 int main(){
 	int basic=6000;
-	int da,ta,hra;
+	
+	int da,ta,hra,totalSal=0;
 	if(basic<=5000){
-		da=10;
-		ta=20;
-		hra=25;
+		da=basic*0.10;
+		ta=basic*0.20;
+		hra=basic*0.25;
+		totalSal=basic+da+ta+hra;
+		
 	}
 	else{
-		da=15;
-		ta=25;
-		hra=30;
+		da=basic*0.15;
+		ta=basic*0.25;
+		hra=basic*0.30;
+		totalSal=basic+da+ta+hra;
 	}
-	printf("da:%d ta:%d hra:%d",da,ta,hra);
+	printf("total salary: %d",totalSal);
 	return 0;
 }
