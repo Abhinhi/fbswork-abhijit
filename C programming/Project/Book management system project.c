@@ -13,6 +13,19 @@ typedef struct Book
 
 int size=2;
   
+int searchbyid(book* barr,int currindex,int id)
+{
+    for(int i=0;i<currindex;i++)
+    {
+        if(barr[i].BookID==id)
+        {
+            return i;
+        }
+    }
+
+    return -1;
+}
+
 book* addbook(book* barr,int* currindex)
 {
 	if(*currindex>=size)
@@ -29,26 +42,76 @@ book* addbook(book* barr,int* currindex)
 		 size=newsize;
 	   }
 	   
-	     printf("\nEnter book ID:");
-		 scanf("%d",&barr[*currindex].BookID);
-		 
-		 printf("Enter Book name:");
-		 fflush(stdin);
-		 gets(barr[*currindex].BookName);
+	     do
+         {
+           printf("\nEnter Book ID: ");
+           scanf("%d",&barr[*currindex].BookID);
+
+           if(barr[*currindex].BookID <= 0)
+          {
+            printf("Book ID must be greater than 0.\n");
+            continue;
+          }
+
+           if(searchbyid(barr,*currindex,barr[*currindex].BookID) != -1)
+             {
+               printf("Error: Book ID already exists!\n");
+               barr[*currindex].BookID =-1;
+              }
+
+            } while(barr[*currindex].BookID <= 0);
+            
+		    printf("Enter Book name:");
+		    fflush(stdin);
+		    gets(barr[*currindex].BookName);
+		    if(strlen(barr[*currindex].BookName)==0)
+            {
+             printf("Book name cannot be empty\n");
+             return barr;
+            }
 		 
 		 printf("Enter author name:");
 		 fflush(stdin);
 		 gets(barr[*currindex].AuthorName);
-		 
-		 printf("Enter category:");
+		 if(strlen(barr[*currindex].AuthorName)==0)
+         {
+           printf("Author name cannot be empty\n");
+           return barr;
+          }
+          
+         printf("Enter category:");
 		 fflush(stdin);
 		 gets(barr[*currindex].category);
 		 
-		 printf("Enter price:");
-		 scanf("%d",&barr[*currindex].price);
+		 if(strlen(barr[*currindex].category)==0)
+           {
+             printf("Category cannot be empty\n");
+             return barr;
+           }
+           
+		 do
+           {
+              printf("Enter Price: ");
+              scanf("%d",&barr[*currindex].price);
+
+              if(barr[*currindex].price<=0)
+              {
+                 printf("Invalid Price! Price must be greater than 0.\n");
+               }
+
+            }while(barr[*currindex].price<=0);
 		 
-		 printf("Enter rating:");
-		 scanf("%f",&barr[*currindex].rating);
+		 do
+          {
+             printf("Enter Rating (0 to 5): ");
+             scanf("%f",&barr[*currindex].rating);
+
+             if(barr[*currindex].rating<0 || barr[*currindex].rating>5)
+              {
+                 printf("Invalid Rating! Enter a value between 0 and 5.\n");
+              }
+
+        }while(barr[*currindex].rating<0 || barr[*currindex].rating>5);
 		
 		 (*currindex)++;
 		 
@@ -78,35 +141,39 @@ void displaybook(book* barr,int currindex)
         }
 }
 
-int searchByID(book *barr,int currindex,int id)
+void searchbyname(book* barr, int currindex, char* name)
 {
+    char searchname[50];
+    strcpy(searchname, name);
+    strlwr(searchname);
+    int found=0;
     for(int i=0;i<currindex;i++)
     {
-        if(barr[i].BookID==id)
+        char bookname[50];
+        strcpy(bookname,barr[i].BookName);
+        strlwr(bookname);
+        if(strstr(bookname,searchname)!=NULL)
         {
-            return i;
+            printf("\n--------------------\n");
+            printf("BookID    : %d\n", barr[i].BookID);
+            printf("BookName  : %s\n", barr[i].BookName);
+            printf("Author    : %s\n", barr[i].AuthorName);
+            printf("Category  : %s\n", barr[i].category);
+            printf("Price     : %d\n", barr[i].price);
+            printf("Rating    : %.2f\n", barr[i].rating);
+            found=1;
         }
     }
 
-    return -1;
-}
-
-int searchByName(book *barr,int currindex,char name[])
-{
-    for(int i=0;i<currindex;i++)
+    if(found == 0)
     {
-        if(strcmp(barr[i].BookName,name)==0)
-        {
-            return i;
-        }
+        printf("No Books Found\n");
     }
-
-    return -1;
 }
 
-void removeBook(book *barr,int *currindex,int id)
+void removebook(book* barr,int* currindex,int id)
 {
-    int index=searchByID(barr,*currindex,id);
+    int index=searchbyid(barr,*currindex,id);
 
     if(index!=-1)
     {
@@ -125,7 +192,7 @@ void removeBook(book *barr,int *currindex,int id)
     }
 }
 
-void showAuthorBooks(book *barr,int currindex)
+void showauthorbooks(book* barr,int currindex)
 {
 	 if(currindex==0)
       {
@@ -133,18 +200,18 @@ void showAuthorBooks(book *barr,int currindex)
        return;
       }   
     char author[50];
-
     int found=0;
-
     printf("Enter Author Name : ");
-
     fflush(stdin);
     gets(author);
-    
+    strlwr(author);
        
     for(int i=0;i<currindex;i++)
     {
-        if(strcmp(barr[i].AuthorName,author)==0)
+        char tempauthor[50];
+        strcpy(tempauthor,barr[i].AuthorName);
+        strlwr(tempauthor);
+        if(strcmp(tempauthor,author)==0)
         {
             printf("\n------------------------\n");
 
@@ -164,71 +231,135 @@ void showAuthorBooks(book *barr,int currindex)
     }
 }
 
-void showcategoryBooks(book *barr,int currindex)
+void showcategorybooks(book* barr,int currindex)
 {
 	 if(currindex==0)
       {
         printf("No books available\n");
        return;
       }   
-      
     char category[50];
-
     int found=0;
-
     printf("Enter category Name : ");
-
     fflush(stdin);
     gets(category);
-    
-       
+    strlwr(category);
     for(int i=0;i<currindex;i++)
     {
-        if(strcmp(barr[i].category,category)==0)
+        char tempcategory[50];
+        strcpy(tempcategory,barr[i].category);
+        strlwr(tempcategory);
+        if(strcmp(tempcategory,category)==0)
         {
             printf("\n------------------------\n");
-
             printf("Book ID : %d\n",barr[i].BookID);
             printf("Book Name : %s\n",barr[i].BookName);
             printf("Category : %s\n",barr[i].category);
             printf("Price : %d\n",barr[i].price);
             printf("Rating : %.2f\n",barr[i].rating);
-
             found=1;
         }
     }
-
     if(found==0)
 {
         printf("No Books Found\n");
     }
 }
-void updateBook(book *barr,int currindex,int id)
+void updatebook(book* barr,int currindex,int id)
 {
-    int index=searchByID(barr,currindex,id);
-
+	int index=searchbyid(barr,currindex,id);
     if(index!=-1)
     {
-        printf("Enter New Price : ");
-        scanf("%d",&barr[index].price);
+         int choice;
+         printf("\nWhat do you want to update?\n");
+         printf("1. Book Name\n");
+         printf("2. Author Name\n");
+         printf("3. Category\n");
+         printf("4. Price\n");
+         printf("5. Rating\n");
+         printf("Enter Choice: ");
+         scanf("%d",&choice);
+         switch(choice)
+         {
+            case 1:
+              do
+              {
+                printf("Enter New Book Name: ");
+                fflush(stdin);
+                gets(barr[index].BookName);
 
-        printf("Enter New Rating : ");
-        scanf("%f",&barr[index].rating);
+              if(strlen(barr[index].BookName)==0)
+             {
+               printf("Book name cannot be empty\n");
+             }
 
-        printf("Book Updated Successfully\n");
-    }
-    else
-    {
+             }while(strlen(barr[index].BookName)==0);
+              break;
+            case 2:
+              do
+			  {
+                printf("Enter New Author Name: ");
+                fflush(stdin);
+                gets(barr[index].AuthorName);
+              if(strlen(barr[index].AuthorName)==0)
+             {
+               printf("Author name cannot be empty\n");
+             }
+
+              }while(strlen(barr[index].AuthorName)==0);
+              break;
+            case 3:
+              do
+			  {
+              printf("Enter New Category: ");
+              fflush(stdin);
+              gets(barr[index].category);
+              if(strlen(barr[index].category)==0)
+              {
+               printf("category cannot be empty\n");
+              }
+              }while(strlen(barr[index].category)==0);
+              break;
+            case 4:
+              do
+             {
+               printf("Enter New Price: ");
+               scanf("%d",&barr[index].price);
+              if(barr[index].price<=0)
+                printf("Invalid Price\n");
+             }while(barr[index].price<=0);
+              break;
+            case 5:
+             do
+             {
+               printf("Enter New Rating (0 to 5): ");
+               scanf("%f",&barr[index].rating);
+               if(barr[index].rating<0 || barr[index].rating>5)
+             {
+               printf("Invalid Rating\n");
+             }
+
+            }while(barr[index].rating<0 || barr[index].rating>5);
+            break;
+            default:
+            printf("Invalid Choice\n");
+            return;
+        }
+       printf("Book Updated Successfully\n");
+     }
+     else
+     {
         printf("Book Not Found\n");
-    }
-}
-void sortByPrice(book *barr, int currindex)
+     }
+ }
+ 
+void sortbyprice(book* barr,int currindex)
 {
     for(int i=0;i<currindex-1;i++)
     {
         for(int j=0;j<currindex-i-1;j++)
         {
-            if(barr[j].price > barr[j+1].price)
+            if(barr[j].price>barr[j+1].price)
             {
                 book temp=barr[j];
                 barr[j]=barr[j+1];
@@ -240,13 +371,13 @@ void sortByPrice(book *barr, int currindex)
     printf("Books sorted by price successfully.\n");
 }
 
-void sortByRating(book *barr, int currindex)
+void sortbyrating(book* barr,int currindex)
 {
     for(int i=0;i<currindex-1;i++)
     {
         for(int j=0;j<currindex-i-1;j++)
         {
-            if(barr[j].rating < barr[j+1].rating)
+            if(barr[j].rating<barr[j+1].rating)
             {
                 book temp=barr[j];
                 barr[j]=barr[j+1];
@@ -258,50 +389,85 @@ void sortByRating(book *barr, int currindex)
     printf("Books sorted by rating successfully.\n");
 }
 
-void top3Rating(book *barr,int currindex)
+void top3rating(book* barr,int currindex)
 {
-    book tempArr[currindex];
-
+	if(currindex==0)
+   {
+      printf("No Books Available\n");
+      return;
+   }
+    book temparr[currindex];
     for(int i=0;i<currindex;i++)
     {
-        tempArr[i]=barr[i];
+        temparr[i]=barr[i];
     }
-
     for(int i=0;i<currindex-1;i++)
     {
         for(int j=0;j<currindex-i-1;j++)
         {
-            if(tempArr[j].rating < tempArr[j+1].rating)
+            if(temparr[j].rating<temparr[j+1].rating)
             {
-                book temp=tempArr[j];
-                tempArr[j]=tempArr[j+1];
-                tempArr[j+1]=temp;
+                book temp=temparr[j];
+                temparr[j]=temparr[j+1];
+                temparr[j+1]=temp;
+            }
+        }
+    }
+    printf("\nTop 3 Books By Rating\n");
+    int limit=currindex;
+    if(limit>3)
+        limit=3;
+    for(int i=0;i<limit;i++)
+    {
+        printf("\nBook ID : %d\n",temparr[i].BookID);
+        printf("Book Name : %s\n",temparr[i].BookName);
+        printf("Rating : %.2f\n",temparr[i].rating);
+    }
+}
+
+void top3price(book* barr,int currindex)
+{
+    if(currindex==0)
+    {
+        printf("No Books Available\n");
+        return;
+    }
+    book temparr[currindex];
+    for(int i=0;i<currindex;i++)
+    {
+        temparr[i]=barr[i];
+    }
+    for(int i=0;i<currindex-1;i++)
+    {
+        for(int j=0;j<currindex-i-1;j++)
+        {
+            if(temparr[j].price<temparr[j+1].price)
+            {
+                book temp=temparr[j];
+                temparr[j]=temparr[j+1];
+                temparr[j+1]=temp;
             }
         }
     }
 
-    printf("\nTop 3 Books By Rating\n");
-
+    printf("\nTop 3 Books By Price\n");
     int limit=currindex;
-
     if(limit>3)
         limit=3;
-
     for(int i=0;i<limit;i++)
     {
-        printf("\nBook ID : %d\n",tempArr[i].BookID);
-        printf("Book Name : %s\n",tempArr[i].BookName);
-        printf("Rating : %.2f\n",tempArr[i].rating);
+        printf("\nBook ID : %d\n",temparr[i].BookID);
+        printf("Book Name : %s\n",temparr[i].BookName);
+        printf("Price : %d\n",temparr[i].price);
     }
 }
-
-int main(){
+void main(){
 	int currindex=0;
 	book* barr=(book*)malloc(size*sizeof(book));
 	if(barr==NULL)
     {
         printf("Memory allocation failed");
-        return 1;
+        return ;
     }
     int choice2;
 	do
@@ -312,47 +478,57 @@ int main(){
 	  printf("Enter 4 to show Author's book\n");
 	  printf("Enter 5 to show category\n");
 	  printf("Enter 6 to update data\n");
-	  printf("Enter 7 to sorted books\n");
+	  printf("Enter 7 to sort books\n");
 	  printf("Enter 8 to display all books\n");
-	  printf("Enter 9 to show top 3 rated books\n");
+	  printf("Enter 9 to show top 3 books\n");
+	  printf("Enter 0 to exit\n");
 	  int choice;
 	  printf("Enter choice:");
 	  scanf("%d",&choice);
 	  switch (choice)
 	       {
 	  	    case 1:
-	  	    	 {
-	  		         printf("Enter book details\n");
-	  		         barr=addbook(barr,&currindex);
-	                 break;
-	             }
+	  		         {
+                        int n;
+                        printf("How many books do you want to add? ");
+                        scanf("%d",&n);
+                        if(n<=0)
+                      {
+                          printf("Please enter a valid number of books.\n");
+                          break;
+                        }
+                            for(int i=0;i<n;i++)
+                           {
+                                printf("\nEnter Details of Book %d\n",i+1);
+                                barr=addbook(barr,&currindex);
+                            }
+                      break;        
+	                 }
 	        case 2:
                 {
                    int id;
                    printf("Enter Book ID : ");
                    scanf("%d",&id);
-                   removeBook(barr,&currindex,id);
+                   removebook(barr,&currindex,id);
                    break;
                 }  
 			case 3:
                {
-                   int searchChoice;
+                   int searchchoice;
                    printf("1. Search by Book ID\n");
                    printf("2. Search by Book Name\n");
                    printf("Enter choice: ");
-                   scanf("%d", &searchChoice);
-
-                  switch(searchChoice)
+                   scanf("%d",&searchchoice);
+                   switch(searchchoice)
                   {
                      case 1:    
                      {
 					        int id;
                             printf("Enter Book ID : ");
                             scanf("%d",&id);
-                           int index=searchByID(barr,currindex,id);
-
-                           if(index!=-1)
-						   {
+                            int index=searchbyid(barr,currindex,id);
+                            if(index!=-1)
+						    {
 						   
                               printf("BookID    :%d\n",barr[index].BookID);
 		                      printf("BookName  :%s\n",barr[index].BookName);
@@ -361,62 +537,38 @@ int main(){
 		                      printf("price     :%d\n",barr[index].price);
 		                      printf("rating    :%.2f\n",barr[index].rating);
 		                    }
-                           else
-                           printf("Book Not Found\n");
+                            else
+                            printf("Book Not Found\n");
                       }
                         break;
 
                      case 2:
-                     	{
-						 
-                          char name[50];
-                          printf("Enter Book Name : ");
-                          fflush(stdin);
-                          gets(name);
-
-                          int index2=searchByName(barr,currindex,name);
-
-                          if(index2!=-1)
-                          {
-                              printf("BookID    :%d\n",barr[index2].BookID);
-		                      printf("BookName  :%s\n",barr[index2].BookName);
-		                      printf("Author    :%s\n",barr[index2].AuthorName);
-	   	                      printf("category  :%s\n",barr[index2].category);
-		                      printf("price     :%d\n",barr[index2].price);
-		                      printf("rating    :%.2f\n",barr[index2].rating);
-		                    }
-                          else
-                          printf("Book Not Found\n");
-
-                        break;
-                       }
+                         {
+                            char name[50];
+                            printf("Enter Book Name : ");
+                            fflush(stdin);
+                            gets(name);
+                            searchbyname(barr,currindex,name);
+                            break;
+                          }
                      default:
                      printf("Invalid choice.\n");
                     }
 
                  break;
                 }
-				
 			case 4:
-
-               showAuthorBooks(barr,currindex);
-
+               showauthorbooks(barr,currindex);
                break;
-			 
 			case 5:
-
-               showcategoryBooks(barr,currindex);
-
+               showcategorybooks(barr,currindex);
                break; 
-			   
 			case 6:
            {
                int id;
                printf("Enter Book ID : ");
                scanf("%d",&id);
-
-               updateBook(barr,currindex,id);
-
+               updatebook(barr,currindex,id);
                break;
             } 
 			case 7:
@@ -426,16 +578,15 @@ int main(){
                 printf("2. Sort by Rating\n");
                 printf("Enter choice: ");
                 scanf("%d",&sortChoice);
-
                 switch(sortChoice)
                 {
                      case 1:
-                     sortByPrice(barr,currindex);
+                     sortbyprice(barr,currindex);
                      displaybook(barr,currindex);
                      break;
 
                      case 2:
-                     sortByRating(barr,currindex);
+                     sortbyrating(barr,currindex);
                      displaybook(barr,currindex);
                      break;
 
@@ -452,19 +603,42 @@ int main(){
 	        	     break;
 	            }
 	        case 9:
+                 {
+                     int ch;
+                     printf("1. Top 3 Books by Rating\n");
+                     printf("2. Top 3 Books by Price\n");
+                     printf("Enter Choice: ");
+                     scanf("%d",&ch);
+                     switch(ch)
+                     {
+                        case 1:
+                        top3rating(barr,currindex);
+                        break;
 
-                 top3Rating(barr,currindex);
+                        case 2:
+                        top3price(barr,currindex);
+                         break;
 
-                 break;   
-                
+                         default:
+                         printf("Invalid Choice\n");
+                     }
+
+                     break;
+                   }   
+               case 0:
+                  printf("Exiting program...\n");
+                  choice2=0;
+                  break; 
 	        default:
 			      printf("Invalid choice!\n");	  
 	        }
-	   printf("Do you want to continue 1/0:");
-	  scanf("%d",&choice2);
+	   if(choice!=0)
+    {
+      printf("Do you want to continue 1/0:");
+      scanf("%d",&choice2);
+    }
    }
 	while(choice2==1);
 	free(barr);
-	return 0;
 }
      
