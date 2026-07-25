@@ -141,7 +141,7 @@ void displaybook(book* barr,int currindex)
         }
 }
 
-void searchbyname(book* barr, int currindex, char* name)
+void searchbyname(book* barr,int currindex,char* name)
 {
     char searchname[50];
     strcpy(searchname, name);
