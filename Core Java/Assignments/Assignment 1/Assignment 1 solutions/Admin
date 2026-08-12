@@ -1,0 +1,112 @@
+class Admin{
+ int id;
+ String name;
+ int salary;
+ double allowance;
+
+  Admin()
+{
+ System.out.println("In Default constructor");
+  this.id=101;
+  this.name="Gloria";
+  this.salary=12345;
+  this.allowance=2435;
+}
+  Admin()
+{
+ System.out.println("In Default constructor");
+  this.id=102;
+  this.name="Penny";
+  this.salary=2314;
+  this.allowance=5432;
+}
+ /* Admin(int id,String name,int salary,int allowance)
+{
+System.out.println("In Parametarised constructor");
+  this.id=id;
+  this.name=name;
+  this.salary=salary;
+  this.allowance=allowance;
+}*/
+ 
+   /*void setID(int a)
+    {
+    this.id=a;
+    }
+    void setName(String n)
+    {
+      this.name=n;
+    }
+    void setSalary(int s)
+    {
+     this.salary=s;
+    }
+    void setAllowance(int a)
+    {
+     this.allowance=a;
+    }*/
+    void display()
+    {
+     System.out.println("id is "+ id);
+     System.out.println("Name is "+ name);
+     System.out.println("Salary is "+ salary);
+     System.out.println("Allowance is "+ allowance);
+    }
+   
+    int getId(){
+      return this.id;
+     }
+    int getSalary(){
+      return this.Salary;
+     }
+    int getAllowance(){
+      return this.Salary;
+     }
+
+    
+}
+
+class CheckAdmin{
+ public static void main(String[]args){
+   Admin a1,a2;
+   a1=new Admin();
+  /* a1.setID(18);
+   String na="Shubham";
+   a1.setName(na);
+   a1.setSalary(15000);
+   a1.setAllowance(2000);*/
+   a1.display();
+  /* a2=new Admin(20,"Shubham",13000,1200);
+   a2.setID(20);
+   String n="Shubham";
+   a2.setName(n);
+   a2.setSalary(13000);
+   a2.setAllowance(1200);
+   a2.display();*/
+
+   /*if(a1.getId()>a2.getId())
+    {
+      System.out.println("A1 is Older");
+
+    }
+  else{
+         System.out.println("A2 is Older");
+      }
+  if(a1.getSalary()>a2.getSalary())
+    {
+      System.out.println("A1 Salary is higher");
+
+    }
+  else{
+         System.out.println("A2 Salary is Higher");
+      }
+  if(a1.getAllowance()>a2.getAllowance())
+    {
+      System.out.println("A1 Allowance is higher");
+
+    }
+  else{
+         System.out.println("A2 Allowance Higher");
+      }*/
+ }
+}
