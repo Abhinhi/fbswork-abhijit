@@ -1,0 +1,121 @@
+Q1) Write an SQL query to display employee first_name and last_name with suitable column
+aliases.
+->
+select first_name as "First Name",
+last_name as "Last Name"
+from employees;
+
+Q2) Write an SQL query to display all different department IDs available in the EMPLOYEES
+table.
+->
+select distinct department_id
+from employees;
+
+Q3) Write an SQL query to display all employee details sorted by first_name in descending
+order.
+->
+select * from employees
+order by first_name desc;
+
+Q4) Write an SQL query to display first_name, last_name, salary, and PF for all employees.
+(PF is calculated as 15% of salary.)
+->
+select first_name,last_name,salary,salary*0.15 from employees;
+
+Q5) Write an SQL query to display employee_id, employee names, and salary sorted in
+increasing order of salary.
+->
+select employee_id,first_name,last_name,salary from employees
+order by salary asc;
+
+Q6) Write an SQL query to display the total salary payable to all employees.
+->
+select sum(salary) as "Total Salary" from employees;
+
+Q7) Write an SQL query to display the highest salary and the lowest salary from the
+EMPLOYEES table.
+->
+select max(salary) as "Highest Salary",min(salary) as "Lowest Salary" from employees;
+
+Q8) Write an SQL query to display the average salary and the total number of employees.
+->
+select avg(salary) as "Average Salary",count(*) as "Total Employees" from employees;
+
+Q9) Write an SQL query to display the total number of employees working in the company.
+->
+select count(employees) as "Total Employees" from employees;
+
+Q10) Write an SQL query to display the number of different job roles available in the
+EMPLOYEES table.
+->
+select count(distinct (job_id)) as "Different Job Roles"
+from employees;
+
+Q11) Write an SQL query to display the first 10 employee records from the EMPLOYEES table.
+->
+select * from employees limit 10;
+
+Q12) Write an SQL query to display employee names and salary for employees whose salary is 
+less than 10000 or greater than 15000. 
+->
+select names, salary from employees
+where salary < 10000 or salary > 15000; 
+
+Q13) Write an SQL query to display employee names and department_id for employees working 
+in department 30 and department 100. 
+Sort the result by department_id. 
+->
+select first_name, department_id from employees
+where department_id = 30 or department_id = 100
+order by department_id;
+
+Q14) Write an SQL query to display employee names and salary for employees working in 
+department 30 or 100, 
+whose salary is outside the range 10000 to 15000. 
+->
+select first_name, salary from employees
+where (dept_id =30 or dept_id = 100)
+and (salary < 10000 or salary 15000);
+
+Q15) Write an SQL query to display employee names and hire_date for employees who were 
+hired in the year 1987. 
+->
+select first_name, hire_date from employees
+where hire_date between "1987-01-01" and "1987-12-31";
+
+Q16) Write an SQL query to display first_name of employees whose first_name contains both 
+letters 'b' and 'c'.
+->
+select first_name from employees
+where first_name like "%b%" and first_name like "%c%";
+
+Q17) Write an SQL query to display last_name, job role, and salary for employees who work as 
+Programmer or Shipping Clerk, 
+and whose salary is not equal to 4500, 10000, or 15000. 
+->
+select last_name, job_id, salary from employees
+where (job_id = 'IT_PROG' or job_id = 'SH_CLERK')
+and salary not in (4500,10000,15000);
+
+Q18) Write an SQL query to display last_name of employees who’s last_name contains exactly 6 
+characters. 
+->
+select last_name from employees
+where length(last_name) = 6;
+
+Q19) Write an SQL query to display last_name of employees having 'e' as the third character in 
+their last_name.
+->
+select last_name from employees
+where last_name like "__e%";
+
+Q20) Write an SQL query to display all different job roles/designations available in the 
+EMPLOYEES table. 
+->
+select distinct job_id from employees;
+
+Q21) Write an SQL query to display employee details for employees who’s last_name is 
+BLAKE, SCOTT, KING, or FORD.
+->
+select * from employees
+where last_name in ("BLAKE", "SCOTT", "KING", "FORD");
