@@ -1,0 +1,89 @@
+class Student{
+
+    int rollNo;
+    String name;
+    double percentage;
+
+    Student(int rollNo,String name,double percentage){
+        this.rollNo=rollNo;
+        this.name=name;
+        this.percentage=percentage;
+    }
+}
+
+class Employee{
+
+    int id;
+    String name;
+    double annualSalary;
+
+    Employee(int id,String name,double annualSalary){
+        this.id=id;
+        this.name=name;
+        this.annualSalary=annualSalary;
+    }
+}
+
+class Bank{
+
+    void approveLoan(Student s){
+
+        if(s.percentage>80)
+            System.out.println(s.name+" Loan Approved = Rs.200000");
+        else if(s.percentage>=60)
+            System.out.println(s.name+" Loan Approved = Rs.100000");
+        else if(s.percentage>=40)
+            System.out.println(s.name+" Loan Approved = Rs.50000");
+        else
+            System.out.println(s.name+" Loan Not Approved");
+    }
+
+    void approveLoan(Employee e){
+
+        if(e.annualSalary>12)
+            System.out.println(e.name+" Loan Approved = Rs.700000");
+        else if(e.annualSalary>=10)
+            System.out.println(e.name+" Loan Approved = Rs.600000");
+        else if(e.annualSalary>=6)
+            System.out.println(e.name+" Loan Approved = Rs.500000");
+        else if(e.annualSalary>=4)
+            System.out.println(e.name+" Loan Approved = Rs.400000");
+        else
+            System.out.println(e.name+" Loan Not Approved");
+    }
+}
+
+class CheckBank{
+
+    public static void main(String[] args){
+
+        Bank b1;
+        b1=new Bank();
+
+        Student s1;
+        s1=new Student(101,"Abhijit",85);
+
+        Student s2;
+        s2=new Student(102,"Rahul",65);
+
+        Student s3;
+        s3=new Student(103,"Amit",35);
+
+        Employee e1;
+        e1=new Employee(201,"Rohan",13);
+
+        Employee e2;
+        e2=new Employee(202,"Kiran",8);
+
+        Employee e3;
+        e3=new Employee(203,"Suresh",3);
+
+        b1.approveLoan(s1);
+        b1.approveLoan(s2);
+        b1.approveLoan(s3);
+
+        b1.approveLoan(e1);
+        b1.approveLoan(e2);
+        b1.approveLoan(e3);
+    }
+}
