@@ -1,0 +1,79 @@
+class Consumers {
+	int customerId;
+	String name;
+	int unitsconsumed;
+	static int ratePerUnit = 5;
+
+	Consumers(int customerId, String name, int unitsconsumed) {
+		this.customerId = customerId;
+		this.name = name;
+		this.unitsconsumed = unitsconsumed;
+	}
+
+	int getCustomerId() {
+		return customerId;
+	}
+
+	void setCustomerId(int customerId) {
+		this.customerId = customerId;
+	}
+
+	String getName() {
+		return name;
+	}
+
+	void setName(String name) {
+		this.name = name;
+	}
+
+	int getUnitsconsumed() {
+		return unitsconsumed;
+	}
+
+	void setUnitsconsumed(int unitsconsumed) {
+		this.unitsconsumed = unitsconsumed;
+	}
+
+	static int getRatePerUnit() {
+		return ratePerUnit;
+	}
+
+	static void setRatePerUnit(int ratePerUnit) {
+		Consumers.ratePerUnit = ratePerUnit;
+	}
+
+	int calculateBill() {
+		return unitsconsumed * ratePerUnit;
+	}
+
+}
+
+class ElectricityBill {
+
+	public static void main(String[] args) {
+		/*
+		 * Consumers c1=new Consumers(101,"Sheldon",75); int
+		 * bill1=c1.getUnitsconsumed()*Consumers.getRatePerUnit();
+		 * System.out.println("Bill for c1 is: "+bill1);
+		 * 
+		 * Consumers c2=new Consumers(102,"Leonard",82); int
+		 * bill2=c2.getUnitsconsumed()*Consumers.getRatePerUnit();
+		 * System.out.println("Bill for c2 is: "+bill2);
+		 * 
+		 * Consumers c3=new Consumers(103,"Penny",96); int
+		 * bill3=c3.getUnitsconsumed()*Consumers.getRatePerUnit();
+		 * System.out.println("Bill for c3 is: "+bill3);
+		 */
+
+		Consumers c1 = new Consumers(101, "Sheldon", 75);
+		System.out.println("Bill for Sheldon is: " + c1.calculateBill());
+
+		Consumers c2 = new Consumers(102, "Leonard", 82);
+		System.out.println("Bill for Leonard is: " + c2.calculateBill());
+
+		Consumers c3 = new Consumers(103, "Penny", 96);
+		System.out.println("Bill for Penny is: " + c3.calculateBill());
+
+	}
+
+}
