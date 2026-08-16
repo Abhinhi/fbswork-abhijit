@@ -1,0 +1,61 @@
+class Employee {
+	String employeeName;
+	double basicSalary;
+	static double bonusRate = 14;
+
+	Employee(String employeeName, double basicSalary) {
+		this.employeeName = employeeName;
+		this.basicSalary = basicSalary;
+	}
+
+	String getEmployeeName() {
+		return employeeName;
+	}
+
+	void setEmployeeName(String employeeName) {
+		this.employeeName = employeeName;
+	}
+
+	double getBasicSalary() {
+		return basicSalary;
+	}
+
+	void setBasicSalary(double basicSalary) {
+		this.basicSalary = basicSalary;
+	}
+
+	static double getBonusRate() {
+		return bonusRate;
+	}
+
+	static void setBonusRate(double bonusRate) {
+		Employee.bonusRate = bonusRate;
+	}
+
+	double totalSalary() {
+		double totalSalary = this.basicSalary + (this.basicSalary * (Employee.bonusRate / 100));
+		return totalSalary;
+	}
+
+	void display() {
+		System.out.println("Employee Name: " + employeeName);
+		System.out.println("Basic Salary: " + basicSalary);
+		System.out.println("Bonus Rate: " + bonusRate + "%");
+		System.out.println("Total Salary: " + totalSalary());
+		System.out.println();
+	}
+
+}
+
+class EmployeeSalary {
+
+	public static void main(String[] args) {
+		Employee e1 = new Employee("Raj", 45000);
+		e1.display();
+
+		Employee e2 = new Employee("Howard", 50000);
+		e2.display();
+
+	}
+
+}
