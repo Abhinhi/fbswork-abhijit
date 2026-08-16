@@ -1,0 +1,58 @@
+class LibraryUser {
+	String name;
+	int lateDays;
+	static int finePerDay = 4;
+
+	LibraryUser(String name, int lateDays) {
+		this.name = name;
+		this.lateDays = lateDays;
+	}
+
+	String getName() {
+		return name;
+	}
+
+	void setName(String name) {
+		this.name = name;
+	}
+
+	int getLateDays() {
+		return lateDays;
+	}
+
+	void setLateDays(int lateDays) {
+		this.lateDays = lateDays;
+	}
+
+	static int getFinePerDay() {
+		return finePerDay;
+	}
+
+	static void setFinePerDay(int finePerDay) {
+		LibraryUser.finePerDay = finePerDay;
+	}
+
+	int fineCalculation() {
+		return this.lateDays * LibraryUser.finePerDay;
+	}
+
+	void display() {
+		System.out.println("Name: " + this.name);
+		System.out.println("Late Days: " + this.lateDays);
+		System.out.println("Total Fine Is: " + this.fineCalculation());
+		System.out.println();
+	}
+}
+
+class CheckFine {
+
+	public static void main(String[] args) {
+		LibraryUser u1 = new LibraryUser("Ammy", 15);
+		u1.display();
+
+		LibraryUser u2 = new LibraryUser("Bernadette", 20);
+		u2.display();
+
+	}
+
+}
