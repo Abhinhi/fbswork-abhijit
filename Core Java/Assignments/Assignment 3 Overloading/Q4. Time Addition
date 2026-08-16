@@ -1,0 +1,103 @@
+class Time{
+
+    int hr,min,sec;
+
+    Time(int hr,int min,int sec){
+        this.hr=hr;
+        this.min=min;
+        this.sec=sec;
+    }
+
+    void display(){
+        System.out.println(hr+":"+min+":"+sec);
+    }
+}
+
+class Calculation{
+
+    void add(Time t1,Time t2){
+
+        int hr=t1.hr+t2.hr;
+        int min=t1.min+t2.min;
+        int sec=t1.sec+t2.sec;
+
+        if(sec>=60){
+            min++;
+            sec=sec-60;
+        }
+
+        if(min>=60){
+            hr++;
+            min=min-60;
+        }
+
+        hr=hr%24;
+
+        System.out.println("Addition of Two Time Objects");
+        System.out.println(hr+":"+min+":"+sec);
+    }
+
+    void add(Time t,int h){
+
+        int hr=t.hr+h;
+        hr=hr%24;
+
+        System.out.println("After Adding Hours");
+        System.out.println(hr+":"+t.min+":"+t.sec);
+    }
+
+    void add(Time t,int m,char ch){
+
+        int hr=t.hr;
+        int min=t.min+m;
+        int sec=t.sec;
+
+        hr=hr+(min/60);
+        min=min%60;
+        hr=hr%24;
+
+        System.out.println("After Adding Minutes");
+        System.out.println(hr+":"+min+":"+sec);
+    }
+
+    void add(Time t,int s,double d){
+
+        int hr=t.hr;
+        int min=t.min;
+        int sec=t.sec+s;
+
+        min=min+(sec/60);
+        sec=sec%60;
+
+        hr=hr+(min/60);
+        min=min%60;
+
+        hr=hr%24;
+
+        System.out.println("After Adding Seconds");
+        System.out.println(hr+":"+min+":"+sec);
+    }
+}
+
+class CheckTime{
+
+    public static void main(String[] args){
+
+        Calculation c1;
+        c1=new Calculation();
+
+        Time t1;
+        t1=new Time(10,20,30);
+
+        Time t2;
+        t2=new Time(5,45,50);
+
+        c1.add(t1,t2);
+
+        c1.add(t1,5);
+
+        c1.add(t1,50,'m');
+
+        c1.add(t1,80,1.0);
+    }
+}
