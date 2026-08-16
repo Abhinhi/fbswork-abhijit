@@ -1,0 +1,139 @@
+Name: Abhijit Govind Biradar
+FRN: 12J0526/021
+set B:
+Q.1
+
+#include<stdio.h>
+#include<string.h>
+void main()
+{
+char str[100];
+printf("enter string");
+fflush(stdin);
+gets(str);
+
+if(strlen(str)==0)
+{
+printf("string is empty");
+return;
+}
+
+int i=0,count=1;
+while(str[i]!='\0')
+{
+if(str[i]==' ')
+count++;
+i++;
+}
+
+printf("number of words:%d",count);
+}
+
+Q.2
+->
+#include<stdio.h>
+void main()
+{
+int n;
+printf("Enter n:");
+scanf("%d",&n);
+
+for(int i=1;i<=n;i++)
+{
+for(int j=1;j<=i;j++)
+{
+printf("1");
+}
+if(i==n)
+break;
+else
+printf("+");
+}
+}
+
+Q.3
+->
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct music
+{
+int songid;
+char title[50];
+char artist[50];
+double duration;
+}music;
+
+int size=2;
+
+void addsong(music** lbr,int* currindex)
+{
+if(*currindex>=size)
+{
+int newsize=2*size;
+*lbr=realloc(*lbr,newsize*sizeof(music));
+size=newsize;
+}
+
+printf("Enter songid:");
+scanf("%d",&(*lbr)[*currindex].songid);
+
+printf("Enter title:");
+fflush(stdin);
+gets((*lbr)[*currindex].title);
+
+printf("Enter artist:");
+fflush(stdin);
+gets((*lbr)[*currindex].artist);
+
+printf("Enter duration:");
+scanf("%lf",&(*lbr)[*currindex].duration);
+
+(*currindex)++;
+}
+
+void displaysong(music* lbr,int currindex)
+{
+for(int i=0;i<currindex;i++)
+{
+printf("\nSong ID:%d",lbr[i].songid);
+printf("\nTitle:%s",lbr[i].title);
+printf("\nArtist:%s",lbr[i].artist);
+printf("\nDuration:%.2lf",lbr[i].duration);
+}
+}
+
+void main()
+{
+music* lbr=(music*)malloc(size*sizeof(music));
+int currindex=0;
+int choice;
+int exit;
+
+do
+{
+printf("\n1.To add song\n");
+printf("2.To display songs\n");
+printf("Enter choice:");
+scanf("%d",&choice);
+
+switch(choice)
+{
+case 1:
+addsong(&lbr,&currindex);
+break;
+
+case 2:
+displaysong(lbr,currindex);
+break;
+
+default:
+printf("Invalid option");
+}
+
+printf("\nDo you want to continue 1/0:");
+scanf("%d",&exit);
+
+}while(exit==1);
+
+free(lbr);
+}
